@@ -1,5 +1,7 @@
 import axios, { AxiosInstance, AxiosError, AxiosRequestConfig, InternalAxiosRequestConfig, AxiosResponse } from "axios";
 import { ResultData } from "@/api/interface";
+import {log} from "node:util";
+import {authSignature, getAuthInfo} from "@/api/modules";
 
 export interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
   loading?: boolean;
@@ -24,10 +26,27 @@ class RequestHttp {
      * token verification (JWT): Accept the token returned by the server and store it in redux/local storage
      */
     this.service.interceptors.request.use(
-      (config: CustomAxiosRequestConfig) => {
-        if (config.headers && typeof config.headers.set === "function") {
-          const token = localStorage.getItem('token');
-          if (token) config.headers.set("dd-token", token);
+      async (config: CustomAxiosRequestConfig) => {
+        const account = sessionStorage.getItem("account");
+        if(config.headers && config.headers.needToken) {
+          let token = sessionStorage.getItem('token');
+          if (!token) {
+            const {data} = await getAuthInfo()
+            const signature = await window.ethereum?.request({
+              method: 'personal_sign',
+              params: [data.auth_info, account],
+            })
+            const res = await authSignature({
+              id: data.id,
+              signature: signature as string,
+              addr: account as string,
+            })
+            token = res.data.token
+            sessionStorage.setItem('token', res.data.token)
+          }
+          if (typeof config.headers.set === "function") {
+            config.headers.set("dd-token", token);
+          }
         }
         return config;
       },

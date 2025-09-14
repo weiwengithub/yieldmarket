@@ -1,24 +1,27 @@
-export interface SellOrder {
-  id: string;
-  amount: string;
-  offerAmount: string;
-  currency: string;
-  maturityPeriod: number;
-  chain: string;
-}
+import {SalesOrderOptions, MyOrderOptions} from "@/api/interface";
 
 export interface SellOrderCardArguments {
-  order: SellOrder;
-  type: string;
-  callInvest?: (order: SellOrder) => void;
-  callClaimRewards?: () => void;
-  callClaimPrincipal?: () => void;
+  order: SalesOrderOptions;
+  isConnected: boolean;
+  callInvest: (order: SalesOrderOptions) => void;
+}
+
+export interface MatchesOrderCardArguments {
+  order: MyOrderOptions;
+  callClaimRewards: (order: MyOrderOptions) => void;
+  callClaimPrincipal: (order: MyOrderOptions) => void;
+}
+
+export interface ShareCoreOrderCardArguments {
+  order: MyOrderOptions;
+  callClaimRewards: (order: MyOrderOptions) => void;
+  callClaimPrincipal: (order: MyOrderOptions) => void;
 }
 
 export interface InvestModalProps {
   open: boolean;
   setOpen: (open: boolean) => void;
-  order: SellOrder;
+  order: SalesOrderOptions;
 }
 
 export interface PostSellModalProps {

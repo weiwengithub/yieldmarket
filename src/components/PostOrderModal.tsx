@@ -7,6 +7,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Image from "next/image";
@@ -104,19 +105,43 @@ export default function PostOrderModal({ order, open, setOpen }: PostOrderModalP
           </div>
 
           <div className="flex justify-between pt-[33px] px-[60px]">
-            <Button
-              variant="outline"
-              className="w-[168px] h-[47px] bg-gradient-orange border-none text-black text-[14px] font-bold hover:bg-gradient-orange hover:text-black"
-              onClick={handleSubmit}
+            <motion.div
+              className="w-[168px] h-[47px]"
+              whileHover={{
+                scale: 1.05,
+                boxShadow: '0 8px 25px rgba(255, 162, 0, 0.15)'
+              }}
+              whileTap={{ scale: 0.98 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
             >
-              Submit
-            </Button>
-            <Button
-              className="w-[168px] h-[47px] bg-transparent text-white text-[14px] font-bold border-[1px] border-solid border-[#2C2C2C] rounded-[5px] hover:bg-transparent hover:text-white"
-              onClick={() => setOpen(false)}
+              <Button
+                variant="outline"
+                className="w-full h-full bg-gradient-orange border-none text-black text-[14px] font-bold hover:bg-gradient-orange hover:text-black"
+                onClick={handleSubmit}
+              >
+                Submit
+              </Button>
+            </motion.div>
+            <motion.div
+              className="w-[168px] h-[47px]"
+              whileHover={{
+                scale: 1.05,
+                boxShadow: '0 8px 25px rgba(255, 162, 0, 0.15)'
+              }}
+              whileTap={{ scale: 0.98 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.3 }}
             >
-              Cancel
-            </Button>
+              <Button
+                className="w-full h-full bg-transparent text-white text-[14px] font-bold border-[1px] border-solid border-[#2C2C2C] rounded-[5px] hover:bg-transparent hover:text-white"
+                onClick={() => setOpen(false)}
+              >
+                Cancel
+              </Button>
+            </motion.div>
           </div>
         </div>
       </DialogContent>

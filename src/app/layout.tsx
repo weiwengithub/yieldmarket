@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, JetBrains_Mono } from "next/font/google";
-import ContextProvider from '@/context'
+import ClientBody from "./ClientBody";
 import { Toaster } from 'sonner';
 import "./globals.css";
 
@@ -27,10 +27,12 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${inter.variable} ${jetbrainsMono.variable} antialiased dark bg-zinc-950 text-zinc-50 font-sans`}
+        className={`${inter.variable} ${jetbrainsMono.variable} antialiased dark bg-zinc-950 text-zinc-50 font-sans select-none`}
       >
-        <ContextProvider>{children}</ContextProvider>
-        <Toaster richColors position="top-center" />
+        <ClientBody>
+          {children}
+        </ClientBody>
+        <Toaster richColors position="top-center" theme="dark" />
       </body>
     </html>
   );
